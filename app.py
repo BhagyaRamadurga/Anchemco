@@ -1,7 +1,7 @@
 import os
 import re
 import pytz
-from flask import Flask, render_template, redirect, url_for, flash, request, send_file
+from flask import Flask, render_template, redirect, url_for, flash, request, send_file, send_from_directory
 
 
 from flask_sqlalchemy import SQLAlchemy
@@ -230,6 +230,11 @@ def download_excel():
 @login_required
 def uploaded_file(filename):
     return send_file(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+@app.route('/service-worker.js')
+def service_worker():
+    return send_from_directory(app.static_folder, 'service-worker.js')
+
 
 
 if __name__ == '__main__':
