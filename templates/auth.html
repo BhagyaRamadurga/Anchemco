@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h1>Anchemco</h1>
+        <div class="tabs">
+            <button class="tab-btn {% if active_tab != 'signup' %}active{% endif %}" onclick="showTab('login')">Sign
+                In</button>
+            <button class="tab-btn {% if active_tab == 'signup' %}active{% endif %}" onclick="showTab('signup')">Sign
+                Up</button>
+        </div>
+
+        <div id="login" class="auth-form {% if active_tab != 'signup' %}active{% endif %}">
+            <form action="{{ url_for('login_post') }}" method="POST">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                    {% if login_error %}
+                    <div style="color: #DC2626; font-size: 0.875rem; margin-top: 5px;">{{ login_error }}</div>
+                    {% endif %}
+                    {% if login_message %}
+                    <div style="color: #059669; font-size: 0.875rem; margin-top: 5px;">{{ login_message }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <div class="details">
+                    <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+
+        <div id="signup" class="auth-form {% if active_tab == 'signup' %}active{% endif %}">
+            <form action="{{ url_for('signup_post') }}" method="POST">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" required>
+                    {% if signup_error %}
+                    <div style="color: #DC2626; font-size: 0.875rem; margin-top: 5px;">{{ signup_error }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn-primary">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showTab(tabName) {
+        document.querySelectorAll('.auth-form').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+        document.getElementById(tabName).classList.add('active');
+        // Simple logic to highlight active tab
+        if (tabName === 'login') {
+            document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+        } else {
+            document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+        }
+    }
+</script>
+{% endblock %}

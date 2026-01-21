@@ -1,0 +1,9 @@
+flask
+flask-sqlalchemy
+flask-login
+pandas
+openpyxl
+gunicorn
+psycopg2-binary
+werkzeug
+pytz

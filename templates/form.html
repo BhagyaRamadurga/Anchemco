@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding: 20px 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>New Entry</h2>
+        <a href="{{ url_for('dashboard') }}" class="btn-primary"
+            style="padding: 8px 12px; width: auto; margin:0;">BACK</a>
+    </div>
+
+    <form action="{{ url_for('save_entry') }}" method="POST" enctype="multipart/form-data">
+        <div class="input-group">
+            <label>Company Name</label>
+            <input type="text" name="company_name" required>
+        </div>
+        <div class="input-group">
+            <label>Authorised Person Name</label>
+            <input type="text" name="authorised_person" required>
+        </div>
+        <div class="input-group">
+            <label>Employee ID</label>
+            <input type="text" name="employee_id" required>
+        </div>
+        <div class="input-group">
+            <label>Final Batch Number</label>
+            <input type="text" name="final_batch_number" required>
+        </div>
+
+        <div class="input-group">
+            <label>Batch Type</label>
+            <select name="sf_batch_number">
+                <option value="SF">SF (Semi Finished)</option>
+                <option value="Finished">Finished</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Urea %</label>
+            <input type="number" step="0.01" name="urea_percentage" required>
+        </div>
+        <div class="input-group">
+            <label>Density</label>
+            <input type="number" step="0.001" name="density" required>
+        </div>
+
+        <div class="input-group">
+            <label>Attach Photo</label>
+            <input type="file" name="photo" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn-primary">SAVE</button>
+    </form>
+</div>
+{% endblock %}
