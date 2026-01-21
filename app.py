@@ -46,7 +46,9 @@ class ProductionEntry(db.Model):
     authorised_person = db.Column(db.String(150))
     employee_id = db.Column(db.String(50))
     final_batch_number = db.Column(db.String(50))
+    final_batch_number = db.Column(db.String(50))
     sf_batch_number = db.Column(db.String(50))
+    batch_quantity = db.Column(db.String(50))
     urea_percentage = db.Column(db.Float)
     density = db.Column(db.Float)
     photo_path = db.Column(db.String(300))
@@ -64,13 +66,13 @@ def load_user(user_id):
 @app.route('/')
 def home():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('landing'))
     return redirect(url_for('login'))
 
 @app.route('/login')
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('landing'))
     return render_template('auth.html')
 
 @app.route('/login', methods=['POST'])
@@ -84,7 +86,13 @@ def login_post():
         return render_template('auth.html', login_error='Please check your login details and try again.', active_tab='login')
     
     login_user(user)
-    return redirect(url_for('dashboard'))
+    login_user(user)
+    return redirect(url_for('landing'))
+
+@app.route('/home')
+@login_required
+def landing():
+    return render_template('home.html')
 
 @app.route('/signup', methods=['POST'])
 def signup_post():
@@ -161,11 +169,12 @@ def save_entry():
 
         new_entry = ProductionEntry(
             user_id=current_user.id,
-            company_name=request.form.get('company_name'),
+            company_name="Anchemco India Private Limited Dharwad",
             authorised_person=request.form.get('authorised_person'),
             employee_id=request.form.get('employee_id'),
             final_batch_number=request.form.get('final_batch_number'),
-            sf_batch_number=request.form.get('sf_batch_number'),
+            sf_batch_number="SF AdBlue",
+            batch_quantity=request.form.get('batch_quantity'),
             urea_percentage=float(request.form.get('urea_percentage')),
             density=float(request.form.get('density')),
             photo_path=filename
@@ -209,8 +218,9 @@ def download_excel():
             'Company': e.company_name,
             'Auth Person': e.authorised_person,
             'Employee ID': e.employee_id,
+            'Product': e.sf_batch_number,
             'Final Batch': e.final_batch_number,
-            'SF/Finished': e.sf_batch_number,
+            'Batch Quantity': e.batch_quantity,
             'Urea %': e.urea_percentage,
             'Density': e.density,
             'Photo': e.photo_path
@@ -236,6 +246,18 @@ def service_worker():
     return send_from_directory(app.static_folder, 'service-worker.js')
 
 
+
+@app.route('/fix_db')
+def fix_db():
+    try:
+        # Attempt to add the column. Works for SQLite and Postgres (mostly)
+        # For Postgres specifically:
+        with db.engine.connect() as conn:
+            conn.execute(db.text("ALTER TABLE production_entry ADD COLUMN IF NOT EXISTS batch_quantity VARCHAR(50)"))
+            conn.commit()
+        return "Database fixed! Column 'batch_quantity' added."
+    except Exception as e:
+        return f"Error or already exists: {str(e)}"
 
 if __name__ == '__main__':
     with app.app_context():

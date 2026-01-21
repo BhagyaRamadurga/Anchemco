@@ -38,7 +38,8 @@ class BasicTests(unittest.TestCase):
             password='Password@123'
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Dashboard', response.data)
+        self.assertIn(b'Batch Mfg', response.data)
+        self.assertIn(b'Anchemco India Private Limited', response.data)
 
     def test_data_entry(self):
         # Register and Login first
@@ -57,11 +58,10 @@ class BasicTests(unittest.TestCase):
 
         # Save Entry
         response = self.app.post('/save_entry', data=dict(
-            company_name='Test Company',
             authorised_person='John Doe',
             employee_id='EMP001',
             final_batch_number='BATCH100',
-            sf_batch_number='SF',
+            batch_quantity='1000 Liters',
             urea_percentage='45.5',
             density='1.2',
             photo=(BytesIO(b'fakeimage'), 'test.jpg')
@@ -72,15 +72,17 @@ class BasicTests(unittest.TestCase):
 
         # Check Dashboard listing
         response = self.app.get('/dashboard')
-        self.assertIn(b'Test Company', response.data)
+        # self.assertIn(b'Anchemco India Private Limited', response.data) # Removed as not displayed
         self.assertIn(b'BATCH100', response.data)
+        self.assertIn(b'1000 Liters', response.data)
+        self.assertIn(b'SF AdBlue', response.data)
 
         # Get the entry ID to delete (assuming it's ID 1 since we clear DB)
         # Verify Delete
         response = self.app.get('/delete_entry/1', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Entry deleted successfully', response.data)
-        self.assertNotIn(b'Test Company', response.data)
+        self.assertNotIn(b'BATCH100', response.data)
 
 
 if __name__ == "__main__":

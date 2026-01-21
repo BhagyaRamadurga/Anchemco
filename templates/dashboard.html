@@ -21,10 +21,10 @@
             <thead>
                 <tr style="background: #F3F4F6; text-align: left;">
                     <th style="padding: 10px;">Date</th>
-                    <th style="padding: 10px;">Company</th>
                     <th style="padding: 10px;">Emp ID</th>
-                    <th style="padding: 10px;">Batch (Final)</th>
-                    <th style="padding: 10px;">Type</th>
+                    <th style="padding: 10px;">Product</th>
+                    <th style="padding: 10px;">Batch No</th>
+                    <th style="padding: 10px;">Qty</th>
                     <th style="padding: 10px;">Urea %</th>
                     <th style="padding: 10px;">Density</th>
                     <th style="padding: 10px;">Photo</th>
@@ -34,14 +34,16 @@
             <tbody>
                 {% for entry in entries %}
                 <tr style="border-bottom: 1px solid #E5E7EB;">
-                    <td style="padding: 10px;">{{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                    <td style="padding: 10px;">{{ entry.company_name }}<br><span
+                    <td style="padding: 10px;" data-label="Date">{{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                    </td>
+                    <td style="padding: 10px;" data-label="Emp ID">{{ entry.employee_id }}<br><span
                             style="font-size: 0.8rem; color: gray;">{{ entry.authorised_person }}</span></td>
-                    <td style="padding: 10px;">{{ entry.employee_id }}</td>
-                    <td style="padding: 10px;">{{ entry.final_batch_number }}</td>
-                    <td style="padding: 10px;">{{ entry.sf_batch_number }}</td>
-                    <td style="padding: 10px;">{{ entry.urea_percentage }}</td>
-                    <td style="padding: 10px;">{{ entry.density }}</td>
+                    <td style="padding: 10px;" data-label="Batch No"><strong>{{ entry.final_batch_number }}</strong>
+                    </td>
+                    <td style="padding: 10px;" data-label="Qty">{{ entry.batch_quantity }}</td>
+                    <td style="padding: 10px;" data-label="Product" style="color: #4F46E5;">SF AdBlue</td>
+                    <td style="padding: 10px;" data-label="Urea %">{{ entry.urea_percentage }}</td>
+                    <td style="padding: 10px;" data-label="Density">{{ entry.density }}</td>
                     <td style="padding: 10px;">
                         {% if entry.photo_path %}
                         <a href="{{ url_for('uploaded_file', filename=entry.photo_path) }}" target="_blank">View</a>

@@ -10,10 +10,6 @@
 
     <form action="{{ url_for('save_entry') }}" method="POST" enctype="multipart/form-data">
         <div class="input-group">
-            <label>Company Name</label>
-            <input type="text" name="company_name" required>
-        </div>
-        <div class="input-group">
             <label>Authorised Person Name</label>
             <input type="text" name="authorised_person" required>
         </div>
@@ -22,17 +18,20 @@
             <input type="text" name="employee_id" required>
         </div>
         <div class="input-group">
+            <label>Product Name</label>
+            <input type="text" value="SF AdBlue" disabled>
+        </div>
+        <div class="input-group">
             <label>Final Batch Number</label>
             <input type="text" name="final_batch_number" required>
         </div>
 
         <div class="input-group">
-            <label>Batch Type</label>
-            <select name="sf_batch_number">
-                <option value="SF">SF (Semi Finished)</option>
-                <option value="Finished">Finished</option>
-            </select>
+            <label>Batch Quantity (Liters/Kg)</label>
+            <input type="text" name="batch_quantity" required>
         </div>
+
+
 
         <div class="input-group">
             <label>Urea %</label>
