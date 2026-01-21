@@ -20,11 +20,12 @@ body {
 }
 
 .app-container {
-    max-width: 480px; /* Mobile width simulation */
+    max-width: 480px;
+    /* Mobile width simulation */
     margin: 0 auto;
     background: var(--white);
     min-height: 100vh;
-    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
     padding: 20px;
     position: relative;
 }
@@ -69,7 +70,7 @@ body {
 .tab-btn.active {
     background: var(--white);
     color: var(--primary-color);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .auth-form {
@@ -93,7 +94,8 @@ body {
     color: #6B7280;
 }
 
-.input-group input, .input-group select {
+.input-group input,
+.input-group select {
     width: 100%;
     padding: 12px;
     border: 1px solid #D1D5DB;
@@ -131,10 +133,90 @@ body {
     border-radius: 8px;
     text-align: center;
 }
-.alert-danger { background: #FEE2E2; color: #991B1B; }
-.alert-success { background: #D1FAE5; color: #065F46; }
+
+.alert-danger {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.alert-success {
+    background: #D1FAE5;
+    color: #065F46;
+}
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsive Table (Card View) */
+@media screen and (max-width: 600px) {
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        margin-bottom: 15px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        border: 1px solid #E5E7EB;
+        overflow: hidden;
+    }
+
+    td {
+        border: none;
+        position: relative;
+        padding-left: 50% !important;
+        text-align: right;
+        padding: 12px 15px !important;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    td:last-child {
+        border-bottom: none;
+    }
+
+    td:before {
+        position: absolute;
+        top: 12px;
+        left: 15px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 600;
+        color: #6B7280;
+        content: attr(data-label);
+    }
+
+    /* Adjust Action Button in Card */
+    td[data-label="Action"] {
+        text-align: right;
+        background: #F9FAFB;
+    }
+
+    /* Adjust Dashboard Layout for Mobile */
+    h2 {
+        font-size: 1.5rem;
+    }
 }
