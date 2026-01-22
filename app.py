@@ -169,7 +169,7 @@ def save_entry():
 
         new_entry = ProductionEntry(
             user_id=current_user.id,
-            company_name="Anchemco India Private Limited Dharwad",
+            company_name="Sharanu India Private Limited Dharwad",
             authorised_person=request.form.get('authorised_person'),
             employee_id=request.form.get('employee_id'),
             final_batch_number=request.form.get('final_batch_number'),
