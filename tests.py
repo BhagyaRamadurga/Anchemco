@@ -39,7 +39,7 @@ class BasicTests(unittest.TestCase):
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Batch Mfg', response.data)
-        self.assertIn(b'Sharanu India Private Limited', response.data)
+        self.assertIn(b'Anchemco India Private Limited', response.data)
 
     def test_data_entry(self):
         # Register and Login first
@@ -72,7 +72,7 @@ class BasicTests(unittest.TestCase):
 
         # Check Dashboard listing
         response = self.app.get('/dashboard')
-        # self.assertIn(b'Sharanu India Private Limited', response.data) # Removed as not displayed
+        # self.assertIn(b'Anchemco India Private Limited', response.data) # Removed as not displayed
         self.assertIn(b'BATCH100', response.data)
         self.assertIn(b'1000 Liters', response.data)
         self.assertIn(b'SF AdBlue', response.data)
