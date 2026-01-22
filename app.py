@@ -169,7 +169,7 @@ def save_entry():
 
         new_entry = ProductionEntry(
             user_id=current_user.id,
-            company_name="Anchemco India Private Limited Dharwad",
+            company_name="Sharanu",
             authorised_person=request.form.get('authorised_person'),
             employee_id=request.form.get('employee_id'),
             final_batch_number=request.form.get('final_batch_number'),
@@ -262,5 +262,4 @@ def fix_db():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    # Use 0.0.0.0 to bind to all interfaces, allowing external access if port is open
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True)
+    app.run(debug=True)

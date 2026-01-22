@@ -26,18 +26,6 @@
         {% block content %}{% endblock %}
     </div>
 
-    <div id="installBtnContainer" class="install-btn-container">
-        <button id="installBtn" class="install-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-            Install App
-        </button>
-    </div>
-
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js')
@@ -47,59 +35,6 @@
                 .catch(function (error) {
                     console.log('Service Worker registration failed:', error);
                 });
-        }
-
-        let deferredPrompt;
-        const installBtnContainer = document.getElementById('installBtnContainer');
-        const installBtn = document.getElementById('installBtn');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-            // Update UI to notify the user they can add to home screen
-            installBtnContainer.style.display = 'block';
-
-            installBtn.addEventListener('click', () => {
-                // hide our user interface that shows our A2HS button
-                installBtnContainer.style.display = 'none';
-                // Show the prompt
-                deferredPrompt.prompt();
-                // Wait for the user to respond to the prompt
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the A2HS prompt');
-                    } else {
-                        console.log('User dismissed the A2HS prompt');
-                    }
-                    deferredPrompt = null;
-                });
-            });
-        });
-
-        window.addEventListener('appinstalled', () => {
-            // Hide the app-provided install promotion
-            installBtnContainer.style.display = 'none';
-            // Clear the deferredPrompt so it can be garbage collected
-            deferredPrompt = null;
-            console.log('PWA was installed');
-        });
-
-        // Check for HTTPS
-        if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-            const warningDiv = document.createElement('div');
-            warningDiv.style.position = 'fixed';
-            warningDiv.style.top = '0';
-            warningDiv.style.left = '0';
-            warningDiv.style.width = '100%';
-            warningDiv.style.backgroundColor = '#FECACA';
-            warningDiv.style.color = '#991B1B';
-            warningDiv.style.textAlign = 'center';
-            warningDiv.style.padding = '10px';
-            warningDiv.style.zIndex = '9999';
-            warningDiv.innerHTML = '⚠️ <strong>Not Secure</strong>: PWA installation requires HTTPS. Please access via a secure URL.';
-            document.body.prepend(warningDiv);
         }
     </script>
 </body>
